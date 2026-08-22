@@ -4,12 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Free Podcast MP3 Tag Editor Online - Edit ID3 Tags & Cover Art</title>
-  <meta name="description" content="Edit podcast MP3 ID3 tags and embed cover art directly in your browser." />
-  
+  <!-- Primary SEO Meta Tags -->
+  <title>PodMeta - Free Online Podcast MP3 Tag Editor & Cover Art Embedder</title>
+  <meta name="title" content="PodMeta - Free Online Podcast MP3 Tag Editor & Cover Art Embedder">
+  <meta name="description" content="Edit podcast MP3 ID3 tags, embed album artwork, and auto-rename audio files instantly in your browser. 100% free, private, and offline-capable PWA.">
+  <meta name="keywords" content="MP3 tag editor, ID3 editor, podcast metadata, embed cover art MP3, podcast audio tagging, batch MP3 editor online">
+  <meta name="author" content="PodMeta Tools">
+  <link rel="canonical" href="https://podmeta.tools/index.html">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://podmeta.tools/">
+  <meta property="og:title" content="PodMeta - Free Online Podcast MP3 Tag Editor">
+  <meta property="og:description" content="Edit ID3 tags and embed artwork directly inside your browser without uploading files to any server.">
+  <meta property="og:image" content="icon-512.png">
+
+  <!-- PWA & Theme -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#4f46e5">
 
+  <!-- Tailwind CSS & Helper CDNs -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -17,22 +31,31 @@
 
 <body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col font-sans antialiased">
 
+  <!-- Unified Header / Navigation -->
   <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
       <a href="index.html" class="flex items-center space-x-2">
         <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center font-bold text-white text-lg">P</div>
         <span class="font-bold text-lg text-white tracking-tight">PodMeta<span class="text-indigo-400">.tools</span></span>
       </a>
+      <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-300">
+        <a href="index.html" class="text-white hover:text-indigo-400 transition-colors">Editor</a>
+        <a href="guide.html" class="hover:text-indigo-400 transition-colors">User Guide</a>
+        <a href="about.html" class="hover:text-indigo-400 transition-colors">About</a>
+        <a href="privacy.html" class="hover:text-indigo-400 transition-colors">Privacy</a>
+        <a href="terms.html" class="hover:text-indigo-400 transition-colors">Terms</a>
+      </nav>
       <a href="#tool" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors shadow">Edit MP3 Now</a>
     </div>
   </header>
 
   <main class="flex-grow">
+    <!-- Main Tool Section -->
     <section id="tool" class="py-12 px-4 max-w-4xl mx-auto space-y-8">
       <div class="text-center space-y-3">
-        <span class="bg-indigo-900/60 text-indigo-300 text-xs font-semibold px-3 py-1 rounded-full border border-indigo-700/50">100% Free & Browser-Based</span>
+        <span class="bg-indigo-900/60 text-indigo-300 text-xs font-semibold px-3 py-1 rounded-full border border-indigo-700/50">100% Private Browser Processing</span>
         <h1 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight">Podcast MP3 ID3 Tag Editor</h1>
-        <p class="text-slate-400 text-sm md:text-base max-w-xl mx-auto">Auto-read existing metadata, embed cover art, auto-rename files to match titles, and download instantly.</p>
+        <p class="text-slate-400 text-sm md:text-base max-w-xl mx-auto">Read existing metadata, embed cover art, auto-rename files, and download tagged MP3s instantly.</p>
       </div>
 
       <div class="bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-6 md:p-8 space-y-6">
@@ -61,7 +84,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs font-medium text-slate-300 mb-1">Episode Title (`TIT2`) <span class="text-indigo-400 text-[10px]">(Used for filename)</span></label>
+            <label class="block text-xs font-medium text-slate-300 mb-1">Episode Title (`TIT2`) <span class="text-indigo-400 text-[10px]">(Auto-renames file)</span></label>
             <input type="text" id="title" placeholder="Launching website" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-indigo-500" />
           </div>
           <div>
@@ -91,10 +114,65 @@
         </button>
       </div>
     </section>
+
+    <!-- Rich Homepage SEO Content -->
+    <section class="py-12 border-t border-slate-800 bg-slate-950/50">
+      <div class="max-w-4xl mx-auto px-4 space-y-12">
+        
+        <!-- Feature Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-slate-800/60 p-5 rounded-xl border border-slate-700/60 space-y-2">
+            <h3 class="font-bold text-white text-base">Zero Upload Privacy</h3>
+            <p class="text-xs text-slate-400">All audio processing happens in local browser memory. Files are never transmitted over the internet.</p>
+          </div>
+          <div class="bg-slate-800/60 p-5 rounded-xl border border-slate-700/60 space-y-2">
+            <h3 class="font-bold text-white text-base">ID3v2.3 Compliance</h3>
+            <p class="text-xs text-slate-400">Generates metadata compatible with Apple Podcasts, Spotify, Windows Explorer, and mobile players.</p>
+          </div>
+          <div class="bg-slate-800/60 p-5 rounded-xl border border-slate-700/60 space-y-2">
+            <h3 class="font-bold text-white text-base">Auto File Renaming</h3>
+            <p class="text-xs text-slate-400">Automatically syncs output filenames with your Episode Title tag for clean file organization.</p>
+          </div>
+        </div>
+
+        <!-- Quick Guide Banner Link -->
+        <div class="bg-gradient-to-r from-indigo-950 to-slate-800 p-6 rounded-2xl border border-indigo-700/50 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div>
+            <h2 class="text-lg font-bold text-white">Need help verifying your audio metadata?</h2>
+            <p class="text-xs text-slate-300">Read our complete step-by-step tutorial on viewing tags across Windows, Mac, iOS, and Android.</p>
+          </div>
+          <a href="guide.html" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-5 py-2.5 rounded-lg whitespace-nowrap transition-colors">Read User Guide</a>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="space-y-6">
+          <h2 class="text-2xl font-bold text-white tracking-tight">Frequently Asked Questions</h2>
+          <div class="space-y-4 text-sm text-slate-300">
+            <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/40 space-y-1">
+              <h4 class="font-semibold text-white">Why are ID3 tags important for podcasts?</h4>
+              <p class="text-xs text-slate-400">When users download audio files for offline playback, ID3 tags ensure your artwork, title, and brand credits stay attached to the file regardless of the media player used.</p>
+            </div>
+            <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/40 space-y-1">
+              <h4 class="font-semibold text-white">Can I edit multiple MP3 files at once?</h4>
+              <p class="text-xs text-slate-400">Yes. Select multiple files in the dropzone to apply uniform host, show, and year metadata across all tracks, exported cleanly in a single ZIP file.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
   </main>
 
-  <footer class="border-t border-slate-800 bg-slate-950 py-8 px-4 text-xs text-slate-500 text-center">
-    <p class="font-semibold text-slate-400">PodMeta.tools &copy; 2026 — Free Client-Side Utility</p>
+  <!-- Unified Footer -->
+  <footer class="border-t border-slate-800 bg-slate-950 py-8 px-4 text-xs text-slate-500 text-center space-y-4">
+    <div class="flex justify-center space-x-6 text-slate-400 font-medium">
+      <a href="index.html" class="hover:text-indigo-400">Editor</a>
+      <a href="guide.html" class="hover:text-indigo-400">User Guide</a>
+      <a href="about.html" class="hover:text-indigo-400">About</a>
+      <a href="privacy.html" class="hover:text-indigo-400">Privacy Policy</a>
+      <a href="terms.html" class="hover:text-indigo-400">Terms of Service</a>
+    </div>
+    <p class="font-semibold text-slate-400">PodMeta.tools &copy; 2026 — Client-Side Podcast Utility</p>
   </footer>
 
   <script>
@@ -222,25 +300,14 @@
       }
     }
 
-    // Helper: Generate clean OS-compliant filename from Title tag
     function generateCleanFilename(originalName, titleTag, index, totalFiles) {
       let baseName = titleTag.trim();
-      
-      // Fallback to original name if title input is empty
-      if (!baseName) {
-        baseName = originalName.replace(/\.[^/.]+$/, "");
-      }
-
-      if (totalFiles > 1) {
-        baseName += ` (${index + 1})`;
-      }
-
-      // Remove invalid OS filename characters: \ / : * ? " < > |
+      if (!baseName) baseName = originalName.replace(/\.[^/.]+$/, "");
+      if (totalFiles > 1) baseName += ` (${index + 1})`;
       const cleanName = baseName.replace(/[/\\?%*:|"<>]/g, '-').trim();
       return `${cleanName}.mp3`;
     }
 
-    // UI Operations
     const dropZone = document.getElementById('dropZone');
     const mp3Input = document.getElementById('mp3Files');
     const coverInput = document.getElementById('coverImage');
@@ -392,13 +459,10 @@
         processBtn.disabled = false;
       }
     });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
   </script>
-
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
-  }
-</script>
-
 </body>
 </html>
