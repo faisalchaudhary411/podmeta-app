@@ -67,7 +67,14 @@
         <a href="#resources" class="hover:text-white transition-colors">Podcast Tools</a>
         <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
       </nav>
-      <div>
+      <div class="flex items-center gap-3">
+        <!-- Dedicated PWA Install Button for Chrome/Android/Desktop (Hidden by default) -->
+        <button id="pwaInstallBtn" class="hidden bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-3.5 py-2 rounded-lg transition-colors shadow flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          <span>Install App</span>
+        </button>
         <a href="#tool" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors shadow">Edit MP3 Now</a>
       </div>
     </div>
@@ -170,9 +177,29 @@
     <p class="font-semibold text-slate-400">PodMeta.tools &copy; 2026 — Free Client-Side Utility</p>
   </footer>
 
+  <!-- Floating iOS Safari Install Banner (Hidden by default) -->
+  <div id="iosInstallBanner" class="hidden fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-sm bg-slate-800 border border-indigo-500/80 rounded-2xl p-4 shadow-2xl z-50">
+    <div class="flex items-start justify-between gap-3">
+      <div class="space-y-1">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+          <p class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Install on iPhone / iPad</p>
+        </div>
+        <p class="text-xs text-slate-200 leading-relaxed">
+          Tap the <strong class="text-white">Share</strong> button 
+          <svg class="w-4 h-4 inline text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 11-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+          </svg>
+          in Safari, then select <strong class="text-white">'Add to Home Screen'</strong>.
+        </p>
+      </div>
+      <button id="closeIosBanner" class="text-slate-400 hover:text-white p-1 text-sm font-bold transition-colors" aria-label="Close banner">✕</button>
+    </div>
+  </div>
+
   <!-- Application Logic & Service Worker Registration -->
   <script>
-    // Register Service Worker for PWA Support
+    // 1. Register Service Worker for PWA Support
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
@@ -181,7 +208,54 @@
       });
     }
 
-    // App Logic
+    // 2. Custom PWA Installation Prompt Logic (Chrome / Edge / Android)
+    let deferredPrompt;
+    const installBtn = document.getElementById('pwaInstallBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.classList.remove('hidden');
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`User install choice: ${outcome}`);
+      deferredPrompt = null;
+      installBtn.classList.add('hidden');
+    });
+
+    window.addEventListener('appinstalled', () => {
+      installBtn.classList.add('hidden');
+      deferredPrompt = null;
+      console.log('PWA installed successfully');
+    });
+
+    // 3. iOS Safari PWA Detection & Banner Logic
+    const isIos = () => {
+      const userAgent = window.navigator.userAgent.toLowerCase();
+      return /iphone|ipad|ipod/.test(userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    };
+
+    const isStandalone = () => {
+      return ('standalone' in window.navigator && window.navigator.standalone) || window.matchMedia('(display-mode: standalone)').matches;
+    };
+
+    const iosBanner = document.getElementById('iosInstallBanner');
+    const closeIosBanner = document.getElementById('closeIosBanner');
+
+    if (isIos() && !isStandalone() && !localStorage.getItem('iosBannerDismissed')) {
+      iosBanner.classList.remove('hidden');
+    }
+
+    closeIosBanner?.addEventListener('click', () => {
+      iosBanner.classList.add('hidden');
+      localStorage.setItem('iosBannerDismissed', 'true');
+    });
+
+    // 4. Core MP3 Tag Editor Logic
     const dropZone = document.getElementById('dropZone');
     const mp3Input = document.getElementById('mp3Files');
     const coverInput = document.getElementById('coverImage');
