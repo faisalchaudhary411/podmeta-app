@@ -32,7 +32,7 @@
       <div class="text-center space-y-3">
         <span class="bg-indigo-900/60 text-indigo-300 text-xs font-semibold px-3 py-1 rounded-full border border-indigo-700/50">100% Free & Browser-Based</span>
         <h1 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight">Podcast MP3 ID3 Tag Editor</h1>
-        <p class="text-slate-400 text-sm md:text-base max-w-xl mx-auto">Auto-read existing metadata, embed cover art, preview audio, and download tagged MP3s instantly.</p>
+        <p class="text-slate-400 text-sm md:text-base max-w-xl mx-auto">Auto-read existing metadata, embed cover art, auto-rename files to match titles, and download instantly.</p>
       </div>
 
       <div class="bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-6 md:p-8 space-y-6">
@@ -61,7 +61,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs font-medium text-slate-300 mb-1">Episode Title (`TIT2`)</label>
+            <label class="block text-xs font-medium text-slate-300 mb-1">Episode Title (`TIT2`) <span class="text-indigo-400 text-[10px]">(Used for filename)</span></label>
             <input type="text" id="title" placeholder="Launching website" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-indigo-500" />
           </div>
           <div>
@@ -87,7 +87,7 @@
         </div>
 
         <button id="processBtn" class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 font-bold text-white rounded-xl transition-colors shadow-lg flex items-center justify-center text-base">
-          <span id="btnText">Tag & Download MP3</span>
+          <span id="btnText">Tag, Rename & Download MP3</span>
         </button>
       </div>
     </section>
@@ -98,7 +98,6 @@
   </footer>
 
   <script>
-    // Pure JS Strict ID3v2.3 Engine (Strips legacy headers & writes compliant frames)
     class ID3v23Engine {
       static stripExistingID3(uint8Array) {
         let offset = 0;
@@ -135,7 +134,7 @@
         frame[6] = (len >>> 8) & 0xFF;
         frame[7] = len & 0xFF;
         
-        frame[8] = 0x00; // Flags
+        frame[8] = 0x00;
         frame[9] = 0x00;
         
         frame.set(payload, 10);
@@ -146,7 +145,7 @@
         if (!text) return null;
         const textBytes = this.encodeTextISO(String(text));
         const payload = new Uint8Array(1 + textBytes.length);
-        payload[0] = 0x00; // ISO-8859-1 Encoding
+        payload[0] = 0x00;
         payload.set(textBytes, 1);
         return this.createFrame(id, payload);
       }
@@ -165,11 +164,11 @@
         const payload = new Uint8Array(payloadLen);
         
         let p = 0;
-        payload[p++] = 0x00; // ISO-8859-1
+        payload[p++] = 0x00;
         payload.set(mimeBytes, p); p += mimeBytes.length;
-        payload[p++] = 0x00; // Null MIME terminator
-        payload[p++] = 0x03; // Front Cover
-        payload[p++] = 0x00; // Null Description
+        payload[p++] = 0x00;
+        payload[p++] = 0x03;
+        payload[p++] = 0x00;
         payload.set(imgBytes, p);
 
         return this.createFrame('APIC', payload);
@@ -193,15 +192,14 @@
         const validFrames = frames.filter(f => f !== null);
         const framesTotalSize = validFrames.reduce((acc, f) => acc + f.length, 0);
         
-        const paddingSize = 1024; // Standard ID3v2 padding
+        const paddingSize = 1024;
         const tagContentSize = framesTotalSize + paddingSize;
 
         const header = new Uint8Array(10);
-        header[0] = 0x49; header[1] = 0x44; header[2] = 0x33; // 'ID3'
-        header[3] = 0x03; header[4] = 0x00; // v2.3.0
-        header[5] = 0x00; // Flags
+        header[0] = 0x49; header[1] = 0x44; header[2] = 0x33;
+        header[3] = 0x03; header[4] = 0x00;
+        header[5] = 0x00;
 
-        // Synchsafe Tag Size
         header[6] = (tagContentSize >> 21) & 0x7F;
         header[7] = (tagContentSize >> 14) & 0x7F;
         header[8] = (tagContentSize >> 7) & 0x7F;
@@ -222,6 +220,24 @@
 
         return new Blob([finalFile], { type: 'audio/mpeg' });
       }
+    }
+
+    // Helper: Generate clean OS-compliant filename from Title tag
+    function generateCleanFilename(originalName, titleTag, index, totalFiles) {
+      let baseName = titleTag.trim();
+      
+      // Fallback to original name if title input is empty
+      if (!baseName) {
+        baseName = originalName.replace(/\.[^/.]+$/, "");
+      }
+
+      if (totalFiles > 1) {
+        baseName += ` (${index + 1})`;
+      }
+
+      // Remove invalid OS filename characters: \ / : * ? " < > |
+      const cleanName = baseName.replace(/[/\\?%*:|"<>]/g, '-').trim();
+      return `${cleanName}.mp3`;
     }
 
     // UI Operations
@@ -336,22 +352,26 @@
           const file = loadedFiles[i];
           const mp3Buffer = await file.arrayBuffer();
 
+          const episodeTitle = loadedFiles.length > 1 && title ? `${title} (${i + 1})` : title;
+
           const taggedBlob = ID3v23Engine.buildTaggedMP3(mp3Buffer, {
-            title: loadedFiles.length > 1 ? `${title} (${i + 1})` : title,
+            title: episodeTitle,
             artist,
             album,
             year,
             coverBuffer: newCoverBuffer
           });
 
+          const outputName = generateCleanFilename(file.name, title, i, loadedFiles.length);
+
           if (isSingle) {
             const taggedUrl = URL.createObjectURL(taggedBlob);
             const a = document.createElement('a');
             a.href = taggedUrl;
-            a.download = `tagged_${file.name}`;
+            a.download = outputName;
             a.click();
           } else if (zip) {
-            zip.file(`tagged_${file.name}`, taggedBlob);
+            zip.file(outputName, taggedBlob);
           }
         }
 
@@ -368,7 +388,7 @@
       } catch (err) {
         alert('Error writing metadata: ' + err.message);
       } finally {
-        btnText.innerText = 'Tag & Download MP3';
+        btnText.innerText = 'Tag, Rename & Download MP3';
         processBtn.disabled = false;
       }
     });
