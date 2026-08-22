@@ -3,34 +3,68 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Add Cover Art to Podcast MP3 Files - PodMeta</title>
+  <title>User Guide - How to Edit MP3 ID3 Tags & Cover Art | PodMeta</title>
+  <meta name="description" content="Step-by-step instructions for editing MP3 metadata, embedding cover art, and verifying ID3 tags on Windows, Mac, and mobile devices.">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col font-sans">
-  <header class="border-b border-slate-800 bg-slate-900/90 p-4">
-    <div class="max-w-4xl mx-auto flex items-center justify-between">
-      <a href="index.html" class="font-bold text-lg text-white">PodMeta<span class="text-indigo-400">.tools</span></a>
-      <a href="index.html" class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-4 py-2 rounded-lg">← Back to Editor</a>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col font-sans antialiased">
+
+  <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center space-x-2">
+        <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center font-bold text-white text-lg">P</div>
+        <span class="font-bold text-lg text-white tracking-tight">PodMeta<span class="text-indigo-400">.tools</span></span>
+      </a>
+      <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-300">
+        <a href="index.html" class="hover:text-indigo-400 transition-colors">Editor</a>
+        <a href="guide.html" class="text-white hover:text-indigo-400 transition-colors">User Guide</a>
+        <a href="about.html" class="hover:text-indigo-400 transition-colors">About</a>
+        <a href="privacy.html" class="hover:text-indigo-400 transition-colors">Privacy</a>
+        <a href="terms.html" class="hover:text-indigo-400 transition-colors">Terms</a>
+      </nav>
+      <a href="index.html" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors">Open Editor</a>
     </div>
   </header>
 
-  <main class="max-w-3xl mx-auto px-4 py-12 space-y-6 flex-grow">
-    <h1 class="text-3xl font-extrabold text-white">How to Add Cover Art to Podcast MP3 Files</h1>
-    <p class="text-slate-400 text-sm">Learn Apple Podcast and Spotify image standards for embedding artwork directly into ID3 tags.</p>
-    
-    <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 space-y-4 text-slate-300 text-sm">
-      <h2 class="text-lg font-bold text-white">Recommended Cover Art Specifications</h2>
-      <ul class="list-disc pl-5 space-y-2">
-        <li><strong>Dimensions:</strong> 1400x1400 to 3000x3000 pixels (1:1 square).</li>
-        <li><strong>Format:</strong> JPEG or PNG format.</li>
-        <li><strong>Color Space:</strong> RGB color profile.</li>
-        <li><strong>Embedding:</strong> Tagged under the <code class="text-indigo-400 bg-slate-900 px-1 py-0.5 rounded">APIC</code> ID3 frame.</li>
-      </ul>
+  <main class="flex-grow py-12 px-4 max-w-4xl mx-auto space-y-8">
+    <div class="space-y-2">
+      <span class="text-xs font-semibold text-indigo-400 uppercase tracking-wider">Help & Documentation</span>
+      <h1 class="text-3xl md:text-4xl font-extrabold text-white">How to Tag & Verify Podcast MP3s</h1>
+    </div>
+
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 md:p-8 space-y-6 text-sm text-slate-300 leading-relaxed">
+      
+      <div class="space-y-3">
+        <h2 class="text-lg font-bold text-white">Step 1: Uploading Audio & Cover Art</h2>
+        <p>Drag your MP3 file into the upload dropzone on the homepage. The tool will parse existing ID3 tags automatically. Next, upload your preferred JPG or PNG image to serve as embedded artwork.</p>
+      </div>
+
+      <div class="space-y-3">
+        <h2 class="text-lg font-bold text-white">Step 2: Entering Metadata & Auto-Renaming</h2>
+        <p>Fill out the Episode Title (`TIT2`), Host Name (`TPE1`), Show Title (`TALB`), and Year (`TYER`). The file will automatically download renamed according to your Episode Title to instantly signal successful tag embedding.</p>
+      </div>
+
+      <div class="space-y-3">
+        <h2 class="text-lg font-bold text-white">Step 3: Verifying Tags on Your Device</h2>
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>Windows PC:</strong> Right-click the MP3 &rarr; Properties &rarr; Details tab.</li>
+          <li><strong>Mac:</strong> Right-click the MP3 &rarr; Get Info &rarr; More Info section.</li>
+          <li><strong>Android / iOS:</strong> Open the file in Apple Music, VLC, or Files app to inspect artwork and titles.</li>
+        </ul>
+      </div>
+
     </div>
   </main>
 
-  <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
-    <p>PodMeta.tools &copy; 2026</p>
+  <footer class="border-t border-slate-800 bg-slate-950 py-8 px-4 text-xs text-slate-500 text-center space-y-4">
+    <div class="flex justify-center space-x-6 text-slate-400 font-medium">
+      <a href="index.html" class="hover:text-indigo-400">Editor</a>
+      <a href="guide.html" class="hover:text-indigo-400">User Guide</a>
+      <a href="about.html" class="hover:text-indigo-400">About</a>
+      <a href="privacy.html" class="hover:text-indigo-400">Privacy Policy</a>
+      <a href="terms.html" class="hover:text-indigo-400">Terms of Service</a>
+    </div>
+    <p class="font-semibold text-slate-400">PodMeta.tools &copy; 2026 — Client-Side Podcast Utility</p>
   </footer>
 </body>
 </html>
