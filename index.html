@@ -13,11 +13,11 @@
   <link rel="canonical" href="https://yourdomain.com/" />
 
   <!-- PWA & Mobile Configuration -->
-  <link rel="manifest" href="/manifest.json">
+  <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#4f46e5">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="apple-touch-icon" href="/icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
 
   <!-- Open Graph / Social -->
   <meta property="og:type" content="website" />
@@ -57,14 +57,14 @@
   <!-- Header -->
   <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-      <a href="/" class="flex items-center space-x-2">
+      <a href="index.html" class="flex items-center space-x-2">
         <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center font-bold text-white text-lg">P</div>
         <span class="font-bold text-lg text-white tracking-tight">PodMeta<span class="text-indigo-400">.tools</span></span>
       </a>
       <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-400">
         <a href="#tool" class="hover:text-white transition-colors">Tag Editor</a>
         <a href="#features" class="hover:text-white transition-colors">Features</a>
-        <a href="#resources" class="hover:text-white transition-colors">Podcast Tools</a>
+        <a href="guide.html" class="hover:text-white transition-colors">Guide</a>
         <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
       </nav>
       <div class="flex items-center gap-3">
@@ -160,14 +160,14 @@
           <p class="text-slate-400 text-sm max-w-xl mx-auto">When listeners download audio files for offline listening, media players rely on embedded ID3 tags rather than RSS feed data.</p>
         </div>
 
-        <!-- Sub-page Guide Promotion Banner -->
+        <!-- Sub-page Guide Promotion Banner (Updated Relative Link) -->
         <div class="bg-indigo-950/60 border border-indigo-700/60 rounded-xl p-5 flex flex-col md:flex-row items-center justify-between gap-4">
           <div class="space-y-1 text-center md:text-left">
             <p class="text-xs font-bold text-indigo-400 uppercase tracking-wide">Featured Guide</p>
             <p class="text-sm font-semibold text-white">How to Add Cover Art to Podcast MP3 Files</p>
             <p class="text-xs text-slate-300">Read our step-by-step tutorial on Apple Podcast cover art specifications.</p>
           </div>
-          <a href="/how-to/add-cover-art-to-mp3/" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-5 py-3 rounded-lg transition-colors shadow shrink-0">Read Guide →</a>
+          <a href="guide.html" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-5 py-3 rounded-lg transition-colors shadow shrink-0">Read Guide →</a>
         </div>
       </div>
     </section>
@@ -202,7 +202,7 @@
     // 1. Register Service Worker for PWA Support
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
+        navigator.serviceWorker.register('sw.js')
           .then((reg) => console.log('PWA Service Worker Active:', reg.scope))
           .catch((err) => console.error('PWA Registration Failed:', err));
       });
